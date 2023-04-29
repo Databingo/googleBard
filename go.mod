@@ -1,3 +1,3 @@
-module github.com/CNZeroY/googleBard
+module github.com/Databingo/googleBard
 
-go 1.20
+go 1.19
