@@ -17,6 +17,7 @@ type Bard struct {
 	Headers   http.Header
 	RequestID int64
 	Proxy     string
+	SN        string
 }
 type Options struct {
 	ConversationID string
@@ -38,7 +39,7 @@ type ResponseBody struct {
 	Choices        []Choice
 }
 
-func NewBard(sessionID string, proxy string) *Bard {
+func NewBard(sessionID, proxy, sn string) *Bard {
 	baseURL := "https://bard.google.com"
 	return &Bard{
 		BaseURL: baseURL,
@@ -53,6 +54,7 @@ func NewBard(sessionID string, proxy string) *Bard {
 		},
 		RequestID: rand.Int63n(9999),
 		Proxy:     proxy,
+		SN:        sn,
 	}
 }
 
@@ -98,7 +100,8 @@ func (b *Bard) generateRequestBody(message string, options Options) (url.Values,
 	if err != nil {
 		return nil, err
 	}
-	snlm0e, err := b.getSNlM0e()
+	//snlm0e, err := b.getSNlM0e()
+	snlm0e := b.SN
 	if err != nil {
 		return nil, err
 	}
@@ -201,7 +204,7 @@ func (b *Bard) handleResponse(response *http.Response) (*ResponseBody, error) {
 }
 
 func (b *Bard) SendMessage(message string, options Options) (*ResponseBody, error) {
-	params := fmt.Sprintf("?bl=%s&_reqid=%d&rt=%s", "boq_assistant-bard-web-server_20230402.21_p0", b.RequestID, "c")
+	params := fmt.Sprintf("?bl=%s&_reqid=%d&rt=%s", "boq_assistant-bard-web-server_20230526.21_p0", b.RequestID, "c")
 	requestBody, err := b.generateRequestBody(message, options)
 	if err != nil {
 		return nil, nil

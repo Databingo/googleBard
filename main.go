@@ -4,17 +4,16 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/Databingo/googleBard/bard"
-	"github.com/Databingo/googleBard/translate"
+	//"github.com/Databingo/googleBard/translate"
 	"log"
 	"os"
 )
 
 func main() {
-	googleTranslate := translate.NewGoogle("zh-CN", "en")
+	//googleTranslate := translate.NewGoogle("zh-CN", "en")
 
 	sessionID := ""
-
-	b := bard.NewBard(sessionID)
+	b := bard.NewBard(sessionID, "socks5://127.0.0.1:7890", "")
 	bardOptions := bard.Options{
 		ConversationID: "",
 		ResponseID:     "",
@@ -27,12 +26,13 @@ func main() {
 		scanner.Scan()
 		message := scanner.Text()
 
-		translateMessage, err := googleTranslate.Translate(message)
-		if err != nil {
-			log.Fatalln(err)
-		}
+		//translateMessage, err := googleTranslate.Translate(message)
+		//if err != nil {
+		//	log.Fatalln(err)
+		//}
 
-		response, err := b.SendMessage(translateMessage, bardOptions)
+		//response, err := b.SendMessage(translateMessage, bardOptions)
+		response, err := b.SendMessage(message, bardOptions)
 		if err != nil {
 			log.Fatalln(err)
 		}
